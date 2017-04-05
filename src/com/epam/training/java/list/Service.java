@@ -2,53 +2,42 @@ package com.epam.training.java.list;
 
 public class Service {
 
-	private MyList ml = new MyList();
+	private List list = new List();
 
 	public Service() {
 
 	}
 
 	public void addBackToList() {
-		ml.addBack("One");
-		ml.addBack("Two");
-		ml.addBack("Three");
+		list.addBack("One");
+		list.addBack("Two");
+		list.addBack("Three");
 		System.out.print("The list with the added elements by in the end: ");
-		ml.printList();
+		list.printList();
 		System.out.println();
 	}
 
 	public void addFrontToList() {
-		ml.addFront("Four");
-		ml.addFront("Five");
+		list.addFront("Four");
+		list.addFront("Five");
 		System.out.print("The list with the added elements by in the begining: ");
-		ml.printList();
+		list.printList();
 		System.out.println();
 	}
 
-	public void addMiddleToList() {
-		ml.addMiddle("Six");
-		ml.addMiddle("Seven");
-		System.out.print("The list with the added elements by in the middle: ");
-		ml.printList();
-		System.out.println();
-	}
-
+	
 	public void addByIndexToList() {
-		try {
-			ml.addByIndex("Eight", 3);
-			ml.addByIndex("Nine", 1);
-		} catch (ListException e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		System.out.print("The list with the added elements by the index (3, 1): ");
-		ml.printList();
-		System.out.println();
+		if ((list.addByIndex("Six", 3)) && (list.addByIndex("Seven", 1))) {
+			System.out.print("The list with the added elements by the index (3, 1): ");
+			list.printList();
+			System.out.println();
+		}	
 	}
-
+	
 	public void searchByIndexInList() {
 		String result = "";
 		try {
-			result = ml.searchByIndex(3);
+			result = list.searchByIndex(3);
 		} catch (ListException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
@@ -58,37 +47,25 @@ public class Service {
 
 	public void searchByValueInList() {
 		boolean result = false;
-		try {
-			result = ml.searchByValue("One");
-		} catch (ListException e) {
-			System.out.println("Error: " + e.getMessage());
-		}
+		result = list.searchByValue("One");
 		System.out.print("The element 'One' contains in the list: " + result);
 		System.out.println();
 	}
-
+	
 	public void deleteByValueFromList() {
-		try {
-			ml.deleteByValue("Ten");
-			ml.deleteByValue("Four");
-			ml.deleteByValue("Seven");
-		} catch (ListException e) {
-			System.out.println("Error: " + e.getMessage());
-		}
+		list.deleteByValue("Ten");
+		list.deleteByValue("Four");
+		list.deleteByValue("Seven");
 		System.out.print("The list with the deleted elements by the value (Ten, Four, Seven): ");
-		ml.printList();
+		list.printList();
 		System.out.println();
 	}
-
+	
 	public void deleteByIndexFromList() {
-		try {
-			ml.deleteByIndex(1);
-			ml.deleteByIndex(4);
-		} catch (ListException e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		System.out.print("The list with the deleted elements by the index (1, 4): ");
-		ml.printList();
+		list.deleteByIndex(4);
+		list.deleteByIndex(1);
+		System.out.print("The list with the deleted elements by the index (4, 1): ");
+		list.printList();
 		System.out.println();
 	}
 
