@@ -7,7 +7,6 @@ public class Main {
 
 		service.addBackToList();
 		service.addFrontToList();
-		service.addMiddleToList();
 		service.addByIndexToList();
 		service.searchByIndexInList();
 		service.searchByValueInList();
