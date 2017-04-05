@@ -1,14 +1,14 @@
 package com.epam.training.java.list;
 
-public class MyList {
+public class List {
 	private Node head; // first element
 	private Node tail; // last element
 
-	public MyList() {
+	public List() {
 
 	}
 
-	public MyList(Node head, Node tail) {
+	public List(Node head, Node tail) {
 		this.head = head;
 		this.tail = tail;
 	}
@@ -39,62 +39,14 @@ public class MyList {
 		}
 	}
 
-	public void addMiddle(String value) {
-		Node a = new Node();
-		a.setValue(value);
-
-		if (head == null) {
-			a.setNext(head);
-			head = a;
-			return;
-		}
-
-		Node b = head;
-		int count = 1;
-		while (b.getNext() != null) {
-			count += 1;
-			b = b.getNext();
-		}
-
-		int position = count / 2;
-
-		if (position == 0) {
-			a.setNext(head);
-			head = a;
-			return;
-		}
-
-		if (position > 0) {
-			b = head;
-			count = 1;
-			while (b.getNext() != null) {
-				if (count == position) {
-					a.setNext(b.getNext());
-					b.setNext(a);
-					return;
-				} else {
-					count += 1;
-				}
-				b = b.getNext();
-			}
-		}
-	}
-
-	public void addByIndex(String value, int index) throws ListException {
-
+	public boolean addByIndex(String value, int index) {
 		if ((head == null) & (index != 1)) {
-			throw new ListException("The wrong index for adding to empty list - " + index + "!");
+			return false;
 		}
-
-		Node b = head;
-		int count = 1;
-		while (b.getNext() != null) {
-			count += 1;
-			b = b.getNext();
-		}
-
+		
+		int count = sizeList();
 		if ((index <= 0) | (index > count)) {
-			throw new ListException("The wrong index for adding to list - " + index + "!");
+			return false;
 		}
 
 		Node a = new Node();
@@ -105,18 +57,19 @@ public class MyList {
 			head = a;
 		}
 
-		b = head;
+		Node b = head;
 		count = 1;
 		while (b.getNext() != null) {
 			if (count == (index - 1)) {
 				a.setNext(b.getNext());
 				b.setNext(a);
-				return;
+				return true;
 			} else {
 				count += 1;
 			}
 			b = b.getNext();
 		}
+		return true;
 	}
 
 	public String searchByIndex(int index) throws ListException {
@@ -125,13 +78,7 @@ public class MyList {
 			throw new ListException("The wrong index for searching in the empty list - " + index + "!");
 		}
 
-		Node b = head;
-		int count = 1;
-		while (b.getNext() != null) {
-			count += 1;
-			b = b.getNext();
-		}
-
+		int count = sizeList();
 		if ((index <= 0) | (index > count)) {
 			throw new ListException("The wrong index for searching in the list - " + index + "!");
 		}
@@ -140,7 +87,7 @@ public class MyList {
 			result = head.getValue();
 		}
 
-		b = head;
+		Node b = head;
 		count = 1;
 		while (b.getNext() != null) {
 			if (count == (index - 1)) {
@@ -154,12 +101,11 @@ public class MyList {
 		return result;
 	}
 
-	public boolean searchByValue(String value) throws ListException {
+	public boolean searchByValue(String value) {
 		boolean result = false;
 		if (head == null) {
-			throw new ListException("The wrong value for searching in the empty list - " + value + "!");
+			result = false;
 		}
-
 		Node a = head;
 		while (a.getNext() != null) {
 			if (a.getValue().equals(value)) {
@@ -169,21 +115,23 @@ public class MyList {
 		}
 		return result;
 	}
-
-	public void deleteByValue(String value) throws ListException {
+	
+	public boolean deleteByValue(String value) {
+		boolean result = false;
+		
 		if (head == null) {
-			throw new ListException("The wrong value for deleting in the empty list - " + value + "!");
+			result = false;
 		}
 
 		if (head == tail) {
 			head = null;
 			tail = null;
-			return;
+			result = false;
 		}
 
 		if (head.getValue() == value) {
 			head = head.getNext();
-			return;
+			result = true;
 		}
 
 		Node a = head;
@@ -193,57 +141,67 @@ public class MyList {
 					tail = a;
 				}
 				a.setNext(a.getNext().getNext());
-				return;
+				result = true;
 			}
 			a = a.getNext();
 		}
+		
+		return result;
 	}
-
-	public void deleteByIndex(int index) throws ListException {
+	
+	public boolean deleteByIndex(int index) {
+		boolean result = false;
 		if ((index <= 0) | (head == null)) {
-			throw new ListException("The wrong index for deleting in the list - " + index + "!");
+			result = false;
 		}
 
 		if ((head == tail) & (index == 1)) {
 			head = null;
 			tail = null;
-			return;
+			result = true;
 		}
 
 		if ((head != tail) & (index == 1)) {
 			head = head.getNext();
-			return;
+			result = true;
 		}
 
-		Node a = head;
-		int count = 1;
-		while (a.getNext() != null) {
-			count += 1;
-			a = a.getNext();
-		}
+		int count = sizeList();
 
 		if (index > count) {
-			throw new ListException("The wrong index for deleting in the list - " + index + "!");
+			result = false;
 		} else {
 			Node b = head;
 			count = 1;
 			while (b.getNext() != null) {
 				if (count == (index - 1)) {
 					b.setNext(b.getNext().getNext());
-					return;
+					result = true;
 				} else {
 					count += 1;
 				}
 				b = b.getNext();
 			}
 		}
+		
+		return result;
 	}
-
+	
 	public void printList() {
 		Node a = head;
 		while (a != null) {
 			System.out.print(a.getValue() + " ");
 			a = a.getNext();
 		}
+	}
+	
+	public int sizeList(){
+		Node b = head;
+		int count = 1;
+		while (b.getNext() != null) {
+			count += 1;
+			b = b.getNext();
+		}
+		return count;
 	}
 }
